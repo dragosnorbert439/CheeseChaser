@@ -11,10 +11,12 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsView>
 #include <QDebug>
+#include <QFile>
 
 #include "sprite.h"
 #include "player.h"
 #include "tile.h"
+#include "cheese.h"
 
 class Game : public QWidget
 {
@@ -33,6 +35,9 @@ private:
     // [EN] variables for the player
     Player* player;
     bool* canMove; // 0 LEFT, 1 RIGHT, 2 UP, 3 DOWN
+
+    // [EN] variable for the cheese
+    Cheese* cheese;
 
     // [EN] Private functions
     void initVariables();

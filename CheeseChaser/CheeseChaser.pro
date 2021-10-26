@@ -9,6 +9,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cheese.cpp \
+    entity.cpp \
     game.cpp \
     main.cpp \
     player.cpp \
@@ -16,6 +18,8 @@ SOURCES += \
     tile.cpp
 
 HEADERS += \
+    cheese.h \
+    entity.h \
     game.h \
     player.h \
     sprite.h \
@@ -31,3 +35,6 @@ OTHER_FILES += "C:\Egyetem\Allamvizsga\images"
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    textInput

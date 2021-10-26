@@ -19,9 +19,7 @@ void Tile::initSprite()
 Tile::Tile(float x, float y, unsigned int state)
 {
     this->state = state;
-    initSprite();
-    this->x = x;
-    this->y = y;
+    this->initSprite();
     this->setPos(x * TILE_SIZE, y * TILE_SIZE);
 }
 

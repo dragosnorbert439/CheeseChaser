@@ -22,28 +22,73 @@ void Game::initGame()
      *       - figyelem: a sorrent szamit ahogy inicializalom
      */
 
-    // [EN] for now it's hard coded for testing purposes
-    this->gameRows = 8;
-    this->gameCols = 8;
+    QFile file("C:/Egyetem/Allamvizsga/CheeseChaser/CheeseChaser/textInput.txt");
+    QString line;
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "GAME::initGame::ERROR::Could not open text file!";
+        return;
+    }
+
+    QTextStream in(&file);
+    QStringList fields;
+    QPair <int, int> playerPos;
+    QPair <int, int> cheesePos;
+    line = in.readLine();
+    fields = line.split(" ");
+    this->gameRows = fields[0].toInt();
+    this->gameCols = fields[1].toInt();
 
     // [EN] the map
     this->tiles = new Tile**[this->gameRows];
-
     for (int i = 0; i < this->gameRows; ++i) tiles[i] = new Tile*[this->gameCols];
 
     for (int i = 0; i < this->gameRows; ++i)
     {
+        line = in.readLine();
+        fields = line.split(" ");
+
         for (int j = 0; j < this->gameCols; ++j)
         {
-            if (i == 0 || j == 0 ) tiles[i][j] = new Tile(i, j, Tile::UNPASSABLE);
-            else tiles[i][j] = new Tile(i, j, Tile::PASSABLE);
+            if (fields[j].toInt() == 0)
+            {
+                tiles[i][j] = new Tile(j, i, Tile::PASSABLE);
+                tiles[i][j]->setEntityFlag(Entity::ENVIORMENT);
+            }
+            else if (fields[j].toInt() == 2)
+            {
+                tiles[i][j] = new Tile(j, i, Tile::PASSABLE);
+                tiles[i][j]->setEntityFlag(Entity::PLAYER);
+                playerPos = {j, i};
+            }
+            else if (fields[j].toInt() == 3)
+            {
+                tiles[i][j] = new Tile(j, i, Tile::PASSABLE);
+                tiles[i][j]->setEntityFlag(Entity::CHEESE);
+                cheesePos = {j, i};
+            }
+            else if (fields[j].toInt() == 1)
+            {
+                tiles[i][j] = new Tile(j, i, Tile::UNPASSABLE);
+                tiles[i][j]->setEntityFlag(Entity::ENVIORMENT);
+            }
+            else
+            {
+                qDebug() << "GAME::initGame::ERROR::Something went wrong!";
+            }
             scene->addItem(tiles[i][j]);
         }
     }
 
-    // [EN] the player
-    this->player = new Player(tiles, gameRows, gameCols, 2.f, 2.f);
+    file.close();
 
+    // [EN] the cheese
+    this->cheese = new Cheese(cheesePos.first, cheesePos.second);
+    scene->addItem(cheese);
+
+    // [EN] the player
+    this->player = new Player(tiles, gameRows, gameCols, playerPos.first, playerPos.second);
     scene->addItem(player);
 
     // [EN] we have the player, but we still need to make it focusable for events
@@ -56,7 +101,6 @@ void Game::initGame()
 
 Game::Game() : QWidget()
 {
-    qDebug() << "Game constructor called\n";
     initVariables();
     initGame();
 }

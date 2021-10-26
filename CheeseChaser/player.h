@@ -16,7 +16,11 @@
 #include <QGraphicsSceneEvent>
 #include <QTimer>
 
+#include "entity.h"
 #include "tile.h"
+#include "cheese.h"
+
+#define TIMER_MS 5
 
 class Player : public QObject, public QGraphicsPixmapItem
 {
@@ -51,6 +55,7 @@ public:
 // [EN] Public functions
     void keyPressEvent(QKeyEvent* event);
     void updateCanMove();
+    void updateTileState();
 
     enum MOVE { LEFT, RIGHT, UP, DOWN, STOP };
 

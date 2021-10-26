@@ -9,9 +9,11 @@
 #include <QGraphicsPixmapItem>
 #include <QDebug>
 
+#include "entity.h"
+
 #define TILE_SIZE 50.f
 
-class Tile : public QObject, public QGraphicsPixmapItem
+class Tile : public QObject, public QGraphicsPixmapItem, public Entity
 {
     Q_OBJECT
 
