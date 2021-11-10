@@ -16,6 +16,11 @@ void Tile::initSprite()
     this->setPixmap(*image);
 }
 
+void Tile::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << "Tile pressed";
+}
+
 Tile::Tile(float x, float y, unsigned int state)
 {
     this->state = state;

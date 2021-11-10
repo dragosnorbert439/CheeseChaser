@@ -10,17 +10,23 @@ CONFIG += c++11
 
 SOURCES += \
     cheese.cpp \
+    enemy.cpp \
     entity.cpp \
     game.cpp \
+    gamemenu.cpp \
     main.cpp \
+    mybutton.cpp \
     player.cpp \
     sprite.cpp \
     tile.cpp
 
 HEADERS += \
     cheese.h \
+    enemy.h \
     entity.h \
     game.h \
+    gamemenu.h \
+    mybutton.h \
     player.h \
     sprite.h \
     tile.h
@@ -37,4 +43,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    textInput
+    textInput.txt

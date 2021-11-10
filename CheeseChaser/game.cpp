@@ -4,11 +4,13 @@ void Game::initVariables()
 {
     // [HU] mutatok
     this->mainLayout = new QVBoxLayout();
+    this->menuLayout = new QVBoxLayout();
     this->scene = new QGraphicsScene();
-    this->view = new QGraphicsView(scene);
+    this->menuScene = new QGraphicsScene();
+    this->view = new QGraphicsView(this->scene);
     this->view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->canMove = new bool[4];
+    this->scene->setBackgroundBrush(QBrush(Qt::lightGray, Qt::SolidPattern));
 }
 
 void Game::initGame()
@@ -35,6 +37,7 @@ void Game::initGame()
     QStringList fields;
     QPair <int, int> playerPos;
     QPair <int, int> cheesePos;
+    QVector <QPair <int, int>> enemyPositions;
     line = in.readLine();
     fields = line.split(" ");
     this->gameRows = fields[0].toInt();
@@ -68,6 +71,12 @@ void Game::initGame()
                 tiles[i][j]->setEntityFlag(Entity::CHEESE);
                 cheesePos = {j, i};
             }
+            else if (fields[j].toInt() == 4)
+            {
+                tiles[i][j] = new Tile(j, i, Tile::PASSABLE);
+                tiles[i][j]->setEntityFlag(Entity::ENEMY);
+                enemyPositions.push_back({j, i});
+            }
             else if (fields[j].toInt() == 1)
             {
                 tiles[i][j] = new Tile(j, i, Tile::UNPASSABLE);
@@ -85,28 +94,62 @@ void Game::initGame()
 
     // [EN] the cheese
     this->cheese = new Cheese(cheesePos.first, cheesePos.second);
-    scene->addItem(cheese);
+    this->scene->addItem(cheese);
+
+    // [EN] the enemies (cats)
+    for (auto& element : enemyPositions)
+    {
+        Enemy* cat = new Enemy(element.first, element.second);
+        this->scene->addItem(cat);
+    }
 
     // [EN] the player
-    this->player = new Player(tiles, gameRows, gameCols, playerPos.first, playerPos.second);
-    scene->addItem(player);
+    this->player = new Player(this->tiles, this->gameRows, this->gameCols, playerPos.first, playerPos.second);
+    this->scene->addItem(this->player);
 
     // [EN] we have the player, but we still need to make it focusable for events
-    player->setFlag(QGraphicsItem::ItemIsFocusable);
-    player->setFocus();
+    this->player->setFlag(QGraphicsItem::ItemIsFocusable);
+    this->player->setFocus();
 
-    view->show();
+    this->goButton = new MyButton(MyButton::START, this->gameCols, 0.f);
+    this->quitButton = new MyButton(MyButton::QUIT, this->gameCols, this->gameRows - 2);
+
+    connect(goButton, &MyButton::clicked, player, &Player::runPlayer);
+
+    this->scene->addItem(this->goButton);
+    this->scene->addItem(this->quitButton);
+}
+
+void Game::initMenu()
+{
+    /*
+     *  [EN]
+     *  default scene will remain the game during the developing
+     *  of the game and its features
+     */
+
+    /*
+    this->view->setFixedSize(QSize(this->gameCols * TILE_SIZE, this->gameRows * TILE_SIZE));
+
+    this->menuLayout->addWidget(new QPushButton("START"));
+    this->menuLayout->addWidget(new QPushButton("OPTIONS"));
+    this->menuLayout->addWidget(new QPushButton("QUIT"));
+
+    this->view->setLayout(this->menuLayout);
+    */
 }
 
 
 Game::Game() : QWidget()
 {
-    initVariables();
-    initGame();
+    this->initVariables();
+    this->initGame();
+    this->initMenu();
+
+
+
+    this->view->show();
 }
 
-void Game::keyPressEvent(QKeyEvent *event)
-{
-    // can't be focused so this will never run
-    qDebug() << "GAME::KeyPressed::Code:" << event->key();
-}
+
+

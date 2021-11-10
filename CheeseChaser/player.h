@@ -15,12 +15,15 @@
 #include <QDebug>
 #include <QGraphicsSceneEvent>
 #include <QTimer>
+#include <QQueue>
+#include <QPointF>
+#include <QThread>
 
 #include "entity.h"
 #include "tile.h"
 #include "cheese.h"
 
-#define TIMER_MS 5
+const int TIMER_MS = 5;
 
 class Player : public QObject, public QGraphicsPixmapItem
 {
@@ -39,6 +42,10 @@ private:
     int mapRows;
     int mapCols;
 
+    // [EN] saved player movement
+    QPointF startingPoint;
+    QQueue<int>* moves;
+
     // [EN] other
     QTimer* timer;
     unsigned int transitionFrames;
@@ -47,6 +54,9 @@ private:
 
 // [EN] Private functions
     void initSprite();
+
+private slots:
+    void movePlayer(int direction);
 
 public:
 // [EN] Constructor
@@ -57,7 +67,10 @@ public:
     void updateCanMove();
     void updateTileState();
 
-    enum MOVE { LEFT, RIGHT, UP, DOWN, STOP };
+    enum MOVE { LEFT, RIGHT, UP, DOWN, STOP, RUNNING, STOPRUNNING };
+
+public slots:
+    void runPlayer();
 
 };
 

@@ -11,7 +11,7 @@
 
 #include "entity.h"
 
-#define TILE_SIZE 50.f
+const float TILE_SIZE = 50.f;
 
 class Tile : public QObject, public QGraphicsPixmapItem, public Entity
 {
@@ -26,6 +26,9 @@ private:
 
     // [EN] private methods
     void initSprite();
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
 public:
     // [EN] Constructor

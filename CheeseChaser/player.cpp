@@ -7,17 +7,64 @@ void Player::initSprite()
     this->setPixmap(*image);
 }
 
+void Player::movePlayer(int direction)
+{
+    switch (direction)
+    {
+    case LEFT:
+        if (canMove[LEFT])
+        {
+            this->moves->push_back(LEFT);
+            currentFrame = 0; mapCoordJ -= 1; this->direction = LEFT;
+            updateTileState(); map[mapCoordI][mapCoordJ + 1]->setEntityFlag(Entity::ENVIORMENT);
+        }
+        break;
+
+    case RIGHT:
+        if (canMove[RIGHT])
+        {
+            qDebug() << "moved to right";
+            this->moves->push_back(RIGHT);
+            currentFrame = 0; mapCoordJ += 1; this->direction = RIGHT;
+            updateTileState(); map[mapCoordI][mapCoordJ - 1]->setEntityFlag(Entity::ENVIORMENT);
+        }
+        break;
+
+    case UP:
+        if (canMove[UP])
+        {
+            this->moves->push_back(UP);
+            currentFrame = 0; mapCoordI -= 1; this->direction = UP;
+            updateTileState(); map[mapCoordI + 1][mapCoordJ]->setEntityFlag(Entity::ENVIORMENT);
+        }
+        break;
+
+    case DOWN:
+        if (canMove[DOWN])
+        {
+            this->moves->push_back(DOWN);
+            currentFrame = 0; mapCoordI += 1; this->direction = DOWN;
+            updateTileState(); map[mapCoordI - 1][mapCoordJ]->setEntityFlag(Entity::ENVIORMENT);
+        }
+        break;
+    }
+
+    updateCanMove();
+}
+
 Player::Player(Tile*** map, int mapRows, int mapCols, float posX, float posY)
 {
     // [EN] init sprite call
-    initSprite();
+    this->initSprite();
 
     // [EN] members
     this->map = map;
     this->mapRows = mapRows;
     this->mapCols = mapCols;
 
+    this->moves = new QQueue<int>;
     this->setPos(posX * TILE_SIZE, posY * TILE_SIZE);
+    this->startingPoint = this->pos();
     this->mapCoordI = posY;
     this->mapCoordJ = posX;
 
@@ -31,8 +78,9 @@ Player::Player(Tile*** map, int mapRows, int mapCols, float posX, float posY)
     this->direction = STOP;
 
     // [EN] the timer (for delayed movement)
-    connect(timer, &QTimer::timeout, this, [&]()
+    connect(timer, &QTimer::timeout, [&]()
     {
+        // [EN] from input
         if (this->direction < STOP && currentFrame != transitionFrames)
         {
             switch (this->direction)
@@ -49,6 +97,25 @@ Player::Player(Tile*** map, int mapRows, int mapCols, float posX, float posY)
         {
             this->direction = STOP;
         }
+
+        // [EN] from START button
+        if (this->direction == RUNNING && currentFrame != transitionFrames && !this->moves->isEmpty())
+        {
+            switch (this->moves->first())
+            {
+                case LEFT: this->setX(this->pos().x() - TILE_SIZE / transitionFrames); break;
+                case RIGHT: this->setX(this->pos().x() + TILE_SIZE / transitionFrames); break;
+                case UP: this->setY(this->pos().y() - TILE_SIZE / transitionFrames); break;
+                case DOWN: this->setY(this->pos().y() + TILE_SIZE / transitionFrames); break;
+            }
+
+            ++currentFrame;
+        }
+        else if (direction == RUNNING && currentFrame == transitionFrames && !this->moves->isEmpty())
+        {
+            this->moves->pop_front();
+            currentFrame = 0;
+        }
     });
 
     this->timer->start(TIMER_MS);
@@ -56,53 +123,28 @@ Player::Player(Tile*** map, int mapRows, int mapCols, float posX, float posY)
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    //qDebug() << "PLAYER::KeyPressed::Code:" << event->key();
-
+    // qDebug() << "PLAYER::KeyPressed::Code:" << event->key();
     if (direction < STOP) return;
+    if (direction == RUNNING) return;
 
     switch (event->key())
     {
     case Qt::Key_A:
-        if (canMove[LEFT])
-        {
-            currentFrame = 0; mapCoordJ -= 1; direction = LEFT;
-            updateTileState(); map[mapCoordI][mapCoordJ + 1]->setEntityFlag(Entity::ENVIORMENT);
-        }
+        movePlayer(LEFT);
         break;
 
     case Qt::Key_D:
-        if (canMove[RIGHT])
-        {
-            currentFrame = 0; mapCoordJ += 1; direction = RIGHT;
-            updateTileState(); map[mapCoordI][mapCoordJ - 1]->setEntityFlag(Entity::ENVIORMENT);
-        }
+        movePlayer(RIGHT);
         break;
 
     case Qt::Key_W:
-        if (canMove[UP])
-        {
-            currentFrame = 0; mapCoordI -= 1; direction = UP;
-            updateTileState(); map[mapCoordI + 1][mapCoordJ]->setEntityFlag(Entity::ENVIORMENT);
-        }
+        movePlayer(UP);
         break;
 
     case Qt::Key_S:
-        if (canMove[DOWN])
-        {
-            currentFrame = 0; mapCoordI += 1; direction = DOWN;
-            updateTileState(); map[mapCoordI - 1][mapCoordJ]->setEntityFlag(Entity::ENVIORMENT);
-        }
+        movePlayer(DOWN);
         break;
     }
-
-    //qDebug() << this->x() << this->y();
-
-    updateCanMove();
-
-    //qDebug() << "----------------------------------------------------------------------------------------";
-    //qDebug() << this->mapRows << this->mapCols;
-    //qDebug() << mapCoordI << mapCoordJ;
-    //qDebug() << "left:" << canMove[0] << "\nright:" << canMove[1] << "\nup:" << canMove[2] << "\ndown:" << canMove[3];
 }
 
 void Player::updateCanMove()
@@ -171,6 +213,32 @@ void Player::updateTileState()
         qDebug() << "PLAYER::ERROR::TILE_ENTITY_FLAG_ALREADY_PLAYER";
         break;
     }
+}
+
+void Player::runPlayer()
+{
+
+    qDebug() << "PLAYER::runPlayer() called";
+
+    for (const auto& e : *moves)
+    {
+        qDebug() << e;
+    }
+
+    if (this->direction < STOP) return;
+
+    qDebug() << "Repositioning player..." << this->startingPoint;
+
+    this->setX(this->startingPoint.x());
+    this->setY(this->startingPoint.y());
+    this->mapCoordI = this->startingPoint.y() / TILE_SIZE;
+    this->mapCoordJ = this->startingPoint.x() / TILE_SIZE;
+    this->updateCanMove();
+
+    qDebug() << mapCoordI << mapCoordJ;
+
+    currentFrame = 0;
+    this->direction = RUNNING;
 }
 
 

@@ -12,11 +12,14 @@
 #include <QGraphicsView>
 #include <QDebug>
 #include <QFile>
+#include <QPushButton>
 
 #include "sprite.h"
 #include "player.h"
 #include "tile.h"
 #include "cheese.h"
+#include "enemy.h"
+#include "mybutton.h"
 
 class Game : public QWidget
 {
@@ -28,13 +31,17 @@ private:
 
     QVBoxLayout* mainLayout;
     QGraphicsScene* scene;
+    QGraphicsScene* menuScene;
+    QVBoxLayout* menuLayout;
     QGraphicsView* view;
 
     Tile*** tiles;
 
+    MyButton* goButton;
+    MyButton* quitButton;
+
     // [EN] variables for the player
     Player* player;
-    bool* canMove; // 0 LEFT, 1 RIGHT, 2 UP, 3 DOWN
 
     // [EN] variable for the cheese
     Cheese* cheese;
@@ -42,10 +49,11 @@ private:
     // [EN] Private functions
     void initVariables();
     void initGame();
+    void initMenu();
 
 public:
+    // [EN] constructor
     explicit Game();
-    void keyPressEvent(QKeyEvent* event);
 
 signals:
 
