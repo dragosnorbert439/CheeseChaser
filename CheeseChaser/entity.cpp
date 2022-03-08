@@ -1,16 +1,22 @@
 #include "entity.h"
 
-int Entity::getEntityFlag() const
+Entity::Entity(float x, float y)
 {
-    return flag;
+    image = new QPixmap();
+    setPos(x * TILE_SIZE, y * TILE_SIZE);
 }
 
-void Entity::setEntityFlag(int value)
+Entity::~Entity()
 {
-    flag = value;
+    delete image;
 }
 
-Entity::Entity()
+void Entity::loadImage(const QString &img)
 {
-    this->setEntityFlag(PLAYER);
+    if (!image->load(img))
+    {
+        qDebug() << "Entity::ERROR::Could not load image for QPixmap\n";
+    }
+    setPixmap(image->scaled(TILE_SIZE, TILE_SIZE));
 }
+

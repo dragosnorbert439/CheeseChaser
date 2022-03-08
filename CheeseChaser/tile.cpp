@@ -1,30 +1,25 @@
 #include "tile.h"
 
-void Tile::initSprite()
+Tile::Tile(float x, float y)
 {
+    setPos(x * TILE_SIZE, y * TILE_SIZE);
     image = new QPixmap();
 
-    if (this->state == PASSABLE)
-    {
-        if (!image->load("C:/Egyetem/Allamvizsga/images/ground.png")) qDebug() << "TILE::ERROR::Could not load image for QPixmap\n";
-    }
-    else if (this->state == UNPASSABLE)
-    {
-        if (!image->load("C:/Egyetem/Allamvizsga/images/wall.png")) qDebug() << "TILE::ERROR::Could not load image for QPixmap\n";
-    }
-
-    this->setPixmap(*image);
+    setFlag(QGraphicsItem::ItemIsFocusable, false);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
 }
 
-void Tile::mousePressEvent(QGraphicsSceneMouseEvent *event)
+Tile::~Tile()
 {
-    qDebug() << "Tile pressed";
+    delete image;
 }
 
-Tile::Tile(float x, float y, unsigned int state)
+void Tile::loadImage(const QString &img)
 {
-    this->state = state;
-    this->initSprite();
-    this->setPos(x * TILE_SIZE, y * TILE_SIZE);
+    if (!image->load(img))
+    {
+        qDebug() << "TILE::ERROR::Could not load image for QPixmap\n";
+    }
+    setPixmap(image->scaled(TILE_SIZE, TILE_SIZE));
 }
 

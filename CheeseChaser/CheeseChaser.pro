@@ -1,41 +1,49 @@
-QT       += core gui
+QT -= gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-CONFIG += c++11
+CONFIG += c++11 console
+CONFIG -= app_bundle
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    cheese.cpp \
-    enemy.cpp \
-    entity.cpp \
-    game.cpp \
-    gamemenu.cpp \
-    main.cpp \
-    mybutton.cpp \
-    player.cpp \
-    sprite.cpp \
-    tile.cpp
+        activeentity.cpp \
+        cat.cpp \
+        cheese.cpp \
+        entity.cpp \
+        game.cpp \
+        gamemap.cpp \
+        main.cpp \
+        mainmenu.cpp \
+        passabletile.cpp \
+        player.cpp \
+        staticmap.cpp \
+        tile.cpp \
+        unpassabletile.cpp
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    activeentity.h \
+    cat.h \
     cheese.h \
-    enemy.h \
     entity.h \
     game.h \
-    gamemenu.h \
-    mybutton.h \
+    gamemap.h \
+    mainmenu.h \
+    passabletile.h \
     player.h \
-    sprite.h \
-    tile.h
+    staticmap.h \
+    tile.h \
+    unpassabletile.h
 
-FORMS +=
+OTHER_FILES += "C:\Egyetem\Allamvizsga\CheeseChaserV2022\CheeseChaser\res"
 
-@
-OTHER_FILES += "C:\Egyetem\Allamvizsga\images"
-@
+QT += widgets
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -43,4 +51,17 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    textInput.txt
+    res/cat.png \
+    res/cheese.png \
+    res/configuration.json \
+    res/ground.png \
+    res/mouse.png \
+    res/static_map_1.txt \
+    res/static_map_2.txt \
+    res/wall.png
+
+RESOURCES += \
+    assets.qrc \
+    enviorment.qrc \
+    maps.qrc
+

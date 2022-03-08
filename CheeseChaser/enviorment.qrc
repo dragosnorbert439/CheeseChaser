@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/tile">
+        <file alias="passable_tile">res/ground.png</file>
+        <file alias="unpassable_tile">res/wall.png</file>
+    </qresource>
+</RCC>

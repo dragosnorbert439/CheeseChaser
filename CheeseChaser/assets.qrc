@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/player">
+        <file alias="mouse">res/mouse.png</file>
+    </qresource>
+    <qresource prefix="/enemy">
+        <file alias="cat">res/cat.png</file>
+    </qresource>
+    <qresource prefix="/cheese">
+        <file alias="cheese">res/cheese.png</file>
+    </qresource>
+</RCC>

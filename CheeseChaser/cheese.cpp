@@ -1,14 +1,10 @@
 #include "cheese.h"
 
-void Cheese::initSprite()
+Cheese::Cheese(float x, float y) : Entity {x, y}
 {
-    image = new QPixmap();
-    if (!image->load("C:/Egyetem/Allamvizsga/images/cheese.png")) qDebug() << "CHEESE::ERROR::Could not load image for QPixmap\n";
-    this->setPixmap(*image);
+    loadImage(":/cheese/cheese");
 }
 
-Cheese::Cheese(float x, float y)
+Cheese::~Cheese()
 {
-    this->initSprite();
-    this->setPos(x * TILE_SIZE, y * TILE_SIZE);
 }

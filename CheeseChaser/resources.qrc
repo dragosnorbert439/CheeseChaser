@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/static maps" lang="en">
+        <file>res/static maps/static_map_2.txt</file>
+    </qresource>
+</RCC>
