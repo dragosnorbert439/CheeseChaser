@@ -51,7 +51,9 @@ void Game::initVariables()
     scene->addItem(miniMenuBackground);
     returnToMainMenuProxy = scene->addWidget(returnToMainMenuButton);
     exitButtonProxy = scene->addWidget(exitButton);
-
+    miniMenuBackground->setZValue(3);
+    exitButtonProxy->setZValue(4);
+    returnToMainMenuProxy->setZValue(4);
 }
 
 void Game::setUpConnects()

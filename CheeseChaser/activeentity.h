@@ -1,9 +1,14 @@
 #ifndef ACTIVEENTITY_H
 #define ACTIVEENTITY_H
 
+#include <QPair>
+#include <QPropertyAnimation>
+#include <QTimer>
+#include <QTime>
+#include <QCoreApplication>
+
 #include "entity.h"
 #include "gamemap.h"
-#include <QPair>
 
 class ActiveEntity : public Entity
 {
@@ -12,18 +17,29 @@ class ActiveEntity : public Entity
 public:
     ActiveEntity(GameMap* gameMap = nullptr, float x = 0.f, float y = 0.f);
     virtual ~ActiveEntity();
+    void moveAnimated(int direction = 0);
+
+
+    QPair<int, int> getMapCoord() const;
+    float distanceToEntity(const Entity& e) const;
+
+    // for movement
+    void moveByAmount(int direction = 0, float amount = TILE_SIZE / GameMap::maxTransitionFrames); // Doesn't check enviorment collision
     void move(int direction = 0);
+    bool isMoving() const;
+    bool setDirection(const int direction);
+    bool setMoving(const bool moving);
+    virtual bool canMove(int direction = 0);
 
     enum MOVE { LEFT, RIGHT, UP, DOWN };
 
 protected:
     GameMap* map;
-    QPair<int, int> getMapCoord() const;
+    int direction {0};
 
-    virtual bool canMove(int direction = 0);
-    float distanceToEntity(const Entity& e) const;
     void checkForEntityCollision();
 
+    bool moving = false;
 };
 
 #endif // ACTIVEENTITY_H

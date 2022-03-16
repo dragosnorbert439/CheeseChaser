@@ -70,6 +70,7 @@ void StaticMap::setMap()
             case 4: // cat
                 map[i][j] = new PassableTile(j, i);
                 entities->append(new Cat(this, j, i));
+                catThreadAnswers.append(&static_cast<Cat*>(entities->last())->done);
                 break;
             default:
                 qDebug() << "StaticMap::setMap::ERROR::Something went wrong!";

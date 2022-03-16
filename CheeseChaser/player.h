@@ -20,6 +20,7 @@ private:
 
 signals:
     void escPressed();
+    void playerMoved();
 };
 
 #endif // PLAYER_H

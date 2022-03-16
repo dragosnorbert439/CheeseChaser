@@ -3,6 +3,10 @@
 ActiveEntity::ActiveEntity(GameMap *gameMap, float x, float y) : Entity {x, y}
 {
     map = gameMap;
+    connect(map, &GameMap::tick, [&]()
+    {
+        moveByAmount(direction);
+    });
 }
 
 ActiveEntity::~ActiveEntity()
@@ -23,6 +27,19 @@ void ActiveEntity::move(int direction)
     checkForEntityCollision();
 }
 
+void ActiveEntity::moveByAmount(int direction, float amount)
+{
+    switch (direction)
+    {
+    case LEFT: setX(pos().x() - amount); break;
+    case RIGHT: setX(pos().x() + amount); break;
+    case UP: setY(pos().y() - amount); break;
+    case DOWN: setY(pos().y() + amount); break;
+    default: qDebug() << "ActiveEntity::move::ERROR::Something went wrong!";
+    }
+    checkForEntityCollision();
+}
+
 QPair<int, int> ActiveEntity::getMapCoord() const // returns i,j indeces
 {
     return QPair<int, int>((int)(pos().y() / TILE_SIZE), (int)(pos().x() / TILE_SIZE));
@@ -30,6 +47,7 @@ QPair<int, int> ActiveEntity::getMapCoord() const // returns i,j indeces
 
 bool ActiveEntity::canMove(int direction)
 {
+    if (moving) return false;
     int i = getMapCoord().first;
     int j = getMapCoord().second;
     switch (direction)
@@ -54,7 +72,18 @@ bool ActiveEntity::canMove(int direction)
         // shouldn't reach here
         qDebug() << "ActiveEntity::canMove::ERROR::Something went wrong!";
     }
+
     return true;
+}
+
+bool ActiveEntity::setDirection(const int direction)
+{
+    if (direction >= 0 && direction <= 4)
+    {
+        this->direction = direction;
+        return true;
+    }
+    return false;
 }
 
 float ActiveEntity::distanceToEntity(const Entity &e) const
@@ -71,7 +100,22 @@ void ActiveEntity::checkForEntityCollision()
         if (distanceToEntity(*entity) < TILE_SIZE_SQR)
         {
             qDebug() << "Entities collided";
-
         }
     }
 }
+
+bool ActiveEntity::isMoving() const
+{
+    return moving;
+}
+
+bool ActiveEntity::setMoving(const bool moving)
+{
+    if (moving != NULL)
+    {
+        this->moving = moving;
+        return true;
+    }
+    return false;
+}
+

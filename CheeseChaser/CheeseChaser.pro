@@ -10,6 +10,7 @@ CONFIG -= app_bundle
 SOURCES += \
         activeentity.cpp \
         cat.cpp \
+        catthread.cpp \
         cheese.cpp \
         entity.cpp \
         game.cpp \
@@ -30,6 +31,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     activeentity.h \
     cat.h \
+    catthread.h \
     cheese.h \
     entity.h \
     game.h \
@@ -41,24 +43,7 @@ HEADERS += \
     tile.h \
     unpassabletile.h
 
-OTHER_FILES += "C:\Egyetem\Allamvizsga\CheeseChaserV2022\CheeseChaser\res"
-
 QT += widgets
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    res/cat.png \
-    res/cheese.png \
-    res/configuration.json \
-    res/ground.png \
-    res/mouse.png \
-    res/static_map_1.txt \
-    res/static_map_2.txt \
-    res/wall.png
 
 RESOURCES += \
     assets.qrc \

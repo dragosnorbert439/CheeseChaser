@@ -43,7 +43,7 @@ bool GameMap::setCols(int newColCount)
     return false;
 }
 
-void GameMap::setMap(){} /// TODO
+void GameMap::setMap(){}
 
 Tile*** GameMap::getMap()
 {
@@ -59,3 +59,31 @@ void GameMap::escPressed()
 {
     emit bringUpMenu();
 }
+
+void GameMap::playerMovedToDirection()
+{
+    bool doneAll = false;
+    for(auto& v : catThreadAnswers) *v = false;
+    emit playerMoved();
+    while(!doneAll)
+    {
+        delay(20);
+        doneAll = true;
+        for(auto& v : catThreadAnswers) doneAll &= *v;
+    }
+
+    delay(drawDelay);
+    for (int transitionFrame = 0; transitionFrame < maxTransitionFrames; ++transitionFrame)
+    {
+        emit tick();
+        if (transitionFrame < maxTransitionFrames + 1) delay(drawDelay);
+    }
+    emit setPlayerMovingFalse();
+}
+
+void GameMap::delay(float amount)
+{
+    QTime delayTime = QTime::currentTime().addMSecs(amount);
+    while (QTime::currentTime() < delayTime) QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
