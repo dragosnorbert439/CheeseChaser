@@ -15,7 +15,7 @@ Player::~Player()
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    if (isMoving()) return;
+    if (keyIsPressed || moving) return;
     switch (event->key())
     {
     case Qt::Key_A: direction = LEFT; break;
@@ -27,9 +27,16 @@ void Player::keyPressEvent(QKeyEvent *event)
     }
     if (canMove(direction))
     {
+        keyIsPressed= true;
         moving = true;
         emit playerMoved();
     }
+}
+
+void Player::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->isAutoRepeat()) return;
+    keyIsPressed = false;
 }
 
 void Player::setUpConnects()

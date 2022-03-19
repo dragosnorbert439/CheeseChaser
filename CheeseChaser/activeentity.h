@@ -15,11 +15,11 @@ class ActiveEntity : public Entity
     Q_OBJECT
 
 public:
+    // constructor/destructor
     ActiveEntity(GameMap* gameMap = nullptr, float x = 0.f, float y = 0.f);
     virtual ~ActiveEntity();
-    void moveAnimated(int direction = 0);
 
-
+    // map related
     QPair<int, int> getMapCoord() const;
     float distanceToEntity(const Entity& e) const;
 
@@ -36,10 +36,10 @@ public:
 protected:
     GameMap* map;
     int direction {0};
+    bool moving {false};
 
     void checkForEntityCollision();
 
-    bool moving = false;
 };
 
 #endif // ACTIVEENTITY_H

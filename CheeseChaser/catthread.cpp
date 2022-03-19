@@ -7,6 +7,16 @@ CatThread::CatThread(Cat* cat)
 
 void CatThread::run()
 {
+    switch (strategy)
+    {
+    case RANDOM: runRandomStrategy(); break;
+    default: // shouldn't reach here
+        qDebug() << "CatThread::run() no strategy detected!";
+    }
+}
+
+void CatThread::runRandomStrategy()
+{
     srand(time(NULL));
     int tDirection = 0;
     do
@@ -20,6 +30,15 @@ void CatThread::run()
         qDebug() << "CatThread::run()::setDirection() couldn't change direction:" << tDirection;
     }
     cat->done = true;
+}
+
+void CatThread::runAStartNonOptimStrategy()
+{
+    // variables
+    int rows = cat->map->getRows();
+    int cols = cat->map->getCols();
+    GameMap* map = cat->map;
+
 }
 
 void CatThread::calculateDirection()

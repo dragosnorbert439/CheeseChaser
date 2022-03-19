@@ -16,9 +16,18 @@ class CatThread : public QThread
 public:
     CatThread(Cat* cat = nullptr);
 
+    enum Strategy
+    {
+        RANDOM, A_STAR_NONOPTIM
+    };
+
 protected:
     Cat* cat;
     void run() override;
+    unsigned int strategy { RANDOM };
+
+    void runRandomStrategy();
+    void runAStartNonOptimStrategy();
 
 public slots:
     void calculateDirection();

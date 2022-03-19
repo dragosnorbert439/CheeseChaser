@@ -5,8 +5,8 @@ Tile::Tile(float x, float y)
     setPos(x * TILE_SIZE, y * TILE_SIZE);
     image = new QPixmap();
 
-    //setFlag(QGraphicsItem::ItemIsFocusable, false);
-    //setFlag(QGraphicsItem::ItemIsSelectable, false);
+    setFlag(QGraphicsItem::ItemIsFocusable, false);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
 }
 
 Tile::~Tile()

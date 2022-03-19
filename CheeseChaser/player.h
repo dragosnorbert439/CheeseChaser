@@ -14,8 +14,10 @@ public:
     Player(GameMap* gameMap = nullptr, float x = 0.f, float y = 0.f);
     ~Player();
     void keyPressEvent(QKeyEvent* event);
+    void keyReleaseEvent(QKeyEvent* event);
 
 private:
+    bool keyIsPressed {false};
     void setUpConnects();
 
 signals:

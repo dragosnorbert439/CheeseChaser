@@ -15,6 +15,7 @@ public:
     ~Cat();
     bool done {false};
 
+    friend class CatThread;
 private:
     CatThread* catThread;
     void setUpConnects();
