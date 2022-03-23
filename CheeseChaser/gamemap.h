@@ -29,6 +29,7 @@ public:
 
     // entities on the map
     QVector<Entity*>* getEntities() const;
+    Entity* getPlayer() const;
 
     // for drawing and entity movement smoothing
     static const int maxTransitionFrames = 20;
@@ -43,6 +44,7 @@ protected:
 
     // entities on the map
     QVector<Entity*>* entities;
+    Entity* player;
 
     // for drawing
     QVector<bool*> catThreadAnswers;

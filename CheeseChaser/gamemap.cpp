@@ -55,6 +55,11 @@ QVector<Entity*>* GameMap::getEntities() const
     return entities;
 }
 
+Entity *GameMap::getPlayer() const
+{
+    return player;
+}
+
 void GameMap::escPressed()
 {
     emit bringUpMenu();

@@ -5,6 +5,10 @@
 #include <QWidget>
 #include <QThread>
 #include <qglobal.h>
+#include <utility>
+#include <queue>
+#include <QMap>
+#include <limits.h>
 
 #include "cat.h"
 
@@ -24,10 +28,14 @@ public:
 protected:
     Cat* cat;
     void run() override;
-    unsigned int strategy { RANDOM };
+    unsigned int strategy { A_STAR_NONOPTIM };
 
     void runRandomStrategy();
     void runAStartNonOptimStrategy();
+
+private:
+    // A* functions
+    void goNextFillDistance(int** map, int rows, int cols, int i, int j, int dist);
 
 public slots:
     void calculateDirection();

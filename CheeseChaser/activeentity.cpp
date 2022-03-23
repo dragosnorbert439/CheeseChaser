@@ -99,7 +99,7 @@ void ActiveEntity::checkForEntityCollision()
         if (entity == this) continue;
         if (distanceToEntity(*entity) < TILE_SIZE_SQR)
         {
-            qDebug() << "Entities collided";
+            //qDebug() << "Entities collided";
         }
     }
 }

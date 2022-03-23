@@ -59,7 +59,8 @@ void StaticMap::setMap()
                 map[i][j] = new PassableTile(j, i);
                 if (!playerIsPlaced)
                 {
-                    entities->append(new Player(this, j, i));
+                    player = new Player(this, j, i);
+                    entities->append(player);
                     playerIsPlaced = true;
                 }
                 break;
