@@ -7,6 +7,7 @@ Player::Player(GameMap* gameMap, float x, float y) : ActiveEntity {gameMap, x, y
     setFocus();
     setZValue(2);
     setUpConnects();
+
 }
 
 Player::~Player()

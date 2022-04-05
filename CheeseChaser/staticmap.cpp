@@ -1,8 +1,7 @@
 #include "staticmap.h"
 
-StaticMap::StaticMap(QGraphicsScene* scene) : GameMap()
+StaticMap::StaticMap(QGraphicsScene* scene) : GameMap(scene)
 {
-    gameScene = scene;
     setMap();
 }
 
@@ -71,7 +70,7 @@ void StaticMap::setMap()
             case 4: // cat
                 map[i][j] = new PassableTile(j, i);
                 entities->append(new GreedyCat(this, j, i));
-                catThreadAnswers.append(&static_cast<Cat*>(entities->last())->done);
+                threadAnswers.append(&static_cast<Cat*>(entities->last())->done);
                 break;
             default:
                 qDebug() << "StaticMap::setMap::ERROR::Something went wrong!";
@@ -87,9 +86,4 @@ void StaticMap::setMap()
     {
         gameScene->addItem(entity);
     }
-}
-
-void StaticMap::setScene(QGraphicsScene *scene)
-{
-    gameScene = scene;
 }

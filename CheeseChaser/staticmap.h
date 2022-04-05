@@ -16,10 +16,6 @@ public:
     ~StaticMap() override;
 
     virtual void setMap() override;
-    void setScene(QGraphicsScene* scene);
-
-private:
-    QGraphicsScene* gameScene;
 };
 
 #endif // STATICMAP_H

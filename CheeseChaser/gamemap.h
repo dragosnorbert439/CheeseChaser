@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <QTime>
 #include <QCoreApplication>
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
 
 #include "passabletile.h"
 #include "unpassabletile.h"
@@ -17,8 +19,8 @@ class GameMap : public QObject
 
 public:
     // constructor/destructor
-    GameMap();
-    virtual ~GameMap();
+    GameMap(QGraphicsScene* scene = nullptr);
+    ~GameMap();
 
     // the map and related methods
     Tile*** getMap();
@@ -33,10 +35,15 @@ public:
     Entity* getPlayer() const;
 
     // for drawing and entity movement smoothing
-
     void delay(float amount);
 
+    // to set or change the scene
+    void setScene(QGraphicsScene *scene);
+
 protected:
+    // the scene where the items are drawn on
+    QGraphicsScene* gameScene;
+
     // map related variables
     int rows;
     int cols;
@@ -47,7 +54,7 @@ protected:
     Entity* player;
 
     // for drawing
-    QVector<bool*> catThreadAnswers;
+    QVector<bool*> threadAnswers;
 
 public slots:
     void escPressed();

@@ -1,7 +1,8 @@
 #include "gamemap.h"
 
-GameMap::GameMap()
+GameMap::GameMap(QGraphicsScene* scene)
 {
+    gameScene = scene;
     entities = new QVector<Entity*>;
     setMap();
 }
@@ -43,7 +44,10 @@ bool GameMap::setCols(int newColCount)
     return false;
 }
 
-void GameMap::setMap(){}
+void GameMap::setMap()
+{
+    // to override in child classes
+}
 
 Tile*** GameMap::getMap()
 {
@@ -68,13 +72,13 @@ void GameMap::escPressed()
 void GameMap::playerMovedToDirection()
 {
     bool doneAll = false;
-    for(auto& v : catThreadAnswers) *v = false;
+    for(auto& v : threadAnswers) *v = false;
     emit playerMoved();
     while(!doneAll)
     {
         delay(20);
         doneAll = true;
-        for(auto& v : catThreadAnswers) doneAll &= *v;
+        for(auto& v : threadAnswers) doneAll &= *v;
     }
 
     delay(drawDelay);
@@ -92,3 +96,7 @@ void GameMap::delay(float amount)
     while (QTime::currentTime() < delayTime) QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
+void GameMap::setScene(QGraphicsScene *scene)
+{
+    gameScene = scene;
+}

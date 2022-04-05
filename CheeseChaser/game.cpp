@@ -72,7 +72,7 @@ void Game::bringUpMenu()
         returnToMainMenuButton->hide();
         miniMenuBackground->hide();
 
-        showingMiniMenu = 0x00;
+        showingMiniMenu = false;
     }
     else
     {
@@ -88,7 +88,7 @@ void Game::bringUpMenu()
         returnToMainMenuButton->show();
         miniMenuBackground->show();
 
-        showingMiniMenu = 0x01;
+        showingMiniMenu = true;
     }
 }
 
