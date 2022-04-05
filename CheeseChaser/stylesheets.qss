@@ -1,0 +1,2 @@
+QPushButton { border-radius: 5px; background-color: rgb(255, 255, 255); height: 35px; font: Arial; };
+QWidget { background-color : black; }

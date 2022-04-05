@@ -70,7 +70,7 @@ void StaticMap::setMap()
                 break;
             case 4: // cat
                 map[i][j] = new PassableTile(j, i);
-                entities->append(new Cat(this, j, i));
+                entities->append(new GreedyCat(this, j, i));
                 catThreadAnswers.append(&static_cast<Cat*>(entities->last())->done);
                 break;
             default:

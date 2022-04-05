@@ -32,6 +32,7 @@ private:
     void initVariables();
     void initGame();
     void setUpConnects();
+    void setStyle();
 
 private slots:
     void returnToMenu();

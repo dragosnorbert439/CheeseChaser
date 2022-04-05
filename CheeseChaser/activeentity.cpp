@@ -22,8 +22,8 @@ void ActiveEntity::move(int direction)
     case RIGHT: setX(pos().x() + TILE_SIZE); break;
     case UP: setY(pos().y() - TILE_SIZE); break;
     case DOWN: setY(pos().y() + TILE_SIZE); break;
-    default: qDebug() << "ActiveEntity::move::ERROR::Something went wrong!";
     }
+    // if there's a -1 directoin it means the entity is stuck and has no viable moves to make
     checkForEntityCollision();
 }
 
@@ -35,8 +35,8 @@ void ActiveEntity::moveByAmount(int direction, float amount)
     case RIGHT: setX(pos().x() + amount); break;
     case UP: setY(pos().y() - amount); break;
     case DOWN: setY(pos().y() + amount); break;
-    default: qDebug() << "ActiveEntity::move::ERROR::Something went wrong!";
     }
+    // if there's a -1 directoin it means the entity is stuck and has no viable moves to make
     checkForEntityCollision();
 }
 
@@ -83,7 +83,13 @@ bool ActiveEntity::setDirection(const int direction)
         this->direction = direction;
         return true;
     }
+    if (direction == -1) this->direction = direction;
     return false;
+}
+
+int ActiveEntity::getDirection() const
+{
+    return direction;
 }
 
 float ActiveEntity::distanceToEntity(const Entity &e) const
@@ -91,13 +97,12 @@ float ActiveEntity::distanceToEntity(const Entity &e) const
     return (pos().x() - e.pos().x())*(pos().x() - e.pos().x()) + (pos().y() - e.pos().y())*(pos().y() - e.pos().y());
 }
 
-void ActiveEntity::checkForEntityCollision()
+void ActiveEntity::checkForEntityCollision() const
 {
-    const float TILE_SIZE_SQR = TILE_SIZE * TILE_SIZE;
     for (auto& entity : *map->getEntities())
     {
         if (entity == this) continue;
-        if (distanceToEntity(*entity) < TILE_SIZE_SQR)
+        if (distanceToEntity(*entity) == 0)
         {
             //qDebug() << "Entities collided";
         }

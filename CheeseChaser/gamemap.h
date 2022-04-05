@@ -9,6 +9,7 @@
 #include "passabletile.h"
 #include "unpassabletile.h"
 #include "entity.h"
+#include "constants.h"
 
 class GameMap : public QObject
 {
@@ -32,8 +33,7 @@ public:
     Entity* getPlayer() const;
 
     // for drawing and entity movement smoothing
-    static const int maxTransitionFrames = 20;
-    static constexpr float drawDelay = 10.42f;
+
     void delay(float amount);
 
 protected:

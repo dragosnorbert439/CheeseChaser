@@ -24,10 +24,11 @@ public:
     float distanceToEntity(const Entity& e) const;
 
     // for movement
-    void moveByAmount(int direction = 0, float amount = TILE_SIZE / GameMap::maxTransitionFrames); // Doesn't check enviorment collision
+    void moveByAmount(int direction = 0, float amount = TILE_SIZE / maxTransitionFrames); // Doesn't check enviorment collision
     void move(int direction = 0);
     bool isMoving() const;
     bool setDirection(const int direction);
+    int getDirection() const;
     bool setMoving(const bool moving);
     virtual bool canMove(int direction = 0);
 
@@ -38,7 +39,7 @@ protected:
     int direction {0};
     bool moving {false};
 
-    void checkForEntityCollision();
+    void checkForEntityCollision() const;
 
 };
 

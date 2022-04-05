@@ -1,5 +1,4 @@
 QT -= gui
-
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
@@ -10,11 +9,11 @@ CONFIG -= app_bundle
 SOURCES += \
         activeentity.cpp \
         cat.cpp \
-        catthread.cpp \
         cheese.cpp \
         entity.cpp \
         game.cpp \
         gamemap.cpp \
+        greedycat.cpp \
         main.cpp \
         mainmenu.cpp \
         passabletile.cpp \
@@ -31,11 +30,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     activeentity.h \
     cat.h \
-    catthread.h \
     cheese.h \
+    constants.h \
     entity.h \
     game.h \
     gamemap.h \
+    greedycat.h \
     mainmenu.h \
     passabletile.h \
     player.h \
@@ -43,7 +43,9 @@ HEADERS += \
     tile.h \
     unpassabletile.h
 
-QT += widgets
+QT += widgets \
+    concurrent
+
 
 RESOURCES += \
     assets.qrc \

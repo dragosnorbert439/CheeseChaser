@@ -2,10 +2,8 @@
 #ifndef CAT_H
 #define CAT_H
 
-#include "catthread.h"
 #include "activeentity.h"
 
-class CatThread;
 class Cat : public ActiveEntity
 {
     Q_OBJECT
@@ -15,11 +13,11 @@ public:
     ~Cat();
     bool done {false};
 
-    friend class CatThread;
+protected:
+    int getRandomDirection();
 
-private:
-    CatThread* catThread;
-    void setUpConnects();
+public slots:
+    virtual void calculateDirection();
 
 };
 

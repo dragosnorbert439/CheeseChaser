@@ -18,7 +18,9 @@ void CatThread::run()
 
 void CatThread::runRandomStrategy()
 {
-    srand(time(NULL));
+    static long long id = 0;
+    srand(id);
+    id++;
     int tDirection = 0;
     do
     {
@@ -53,6 +55,14 @@ void CatThread::runAStartNonOptimStrategy()
     // starting and target positions
     QPair<int, int> startingPosition = cat->getMapCoord();
     QPair<int, int> targetPosition = static_cast<ActiveEntity*>(cat->map->getPlayer())->getMapCoord();
+    int playerDirection = static_cast<ActiveEntity*>(cat->map->getPlayer())->getDirection();
+    /*switch (playerDirection)
+    {
+    case ActiveEntity::LEFT: targetPosition.second -= 1; break;
+    case ActiveEntity::RIGHT: targetPosition.second += 1; break;
+    case ActiveEntity::UP: targetPosition.first -= 1; break;
+    case ActiveEntity::DOWN: targetPosition.first += 1; break;
+    }*/
     // fill the map
     goNextFillDistance(map, rows, cols, targetPosition.first, targetPosition.second, -1);
     // copy of map for calculations

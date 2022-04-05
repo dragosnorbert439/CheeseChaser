@@ -6,7 +6,7 @@
 #include <QGraphicsPixmapItem>
 #include <QDebug>
 
-const float TILE_SIZE = 50.f;
+#include "constants.h"
 
 class Tile : public QObject, public QGraphicsPixmapItem
 {

@@ -4,6 +4,7 @@ MainMenu::MainMenu()
 {
     initVariables();
     setUpConnects();
+    setStyle();
 }
 
 MainMenu::~MainMenu()
@@ -53,6 +54,14 @@ void MainMenu::setUpConnects()
         initGame();
         game->showGame();
     });
+}
+
+void MainMenu::setStyle()
+{
+    setStyleSheet(mainBackgroungStyleSheet);
+    startButton->setStyleSheet(buttonsStyleSheet);
+    optionsButton->setStyleSheet(buttonsStyleSheet);
+    exitButton->setStyleSheet(buttonsStyleSheet);
 }
 
 void MainMenu::returnToMenu()

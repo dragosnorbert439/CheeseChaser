@@ -9,6 +9,7 @@
 #include <queue>
 #include <QMap>
 #include <limits.h>
+#include <time.h>
 
 #include "cat.h"
 

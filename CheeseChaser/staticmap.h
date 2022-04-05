@@ -7,6 +7,7 @@
 #include "player.h"
 #include "cat.h"
 #include "cheese.h"
+#include "greedycat.h"
 
 class StaticMap : public GameMap
 {
