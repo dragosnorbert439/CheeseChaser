@@ -92,8 +92,11 @@ void GameMap::playerMovedToDirection()
 
 void GameMap::delay(float amount)
 {
-    QTime delayTime = QTime::currentTime().addMSecs(amount);
-    while (QTime::currentTime() < delayTime) QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    QEventLoop loop;
+    QTimer t;
+    t.connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
+    t.start(amount);
+    loop.exec();
 }
 
 void GameMap::setScene(QGraphicsScene *scene)

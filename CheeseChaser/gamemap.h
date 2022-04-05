@@ -7,6 +7,8 @@
 #include <QCoreApplication>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
+#include <Windows.h>
+#include <QTimer>
 
 #include "passabletile.h"
 #include "unpassabletile.h"
