@@ -7,7 +7,6 @@ Player::Player(GameMap* gameMap, float x, float y) : ActiveEntity {gameMap, x, y
     setFocus();
     setZValue(2);
     setUpConnects();
-
 }
 
 Player::~Player()
@@ -16,14 +15,18 @@ Player::~Player()
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    if (keyIsPressed || moving) return;
+    if (event->key() == Qt::Key_Escape)
+    {
+        escKeyPressed = !escKeyPressed;
+        emit escPressed(); return;
+    }
+    if (keyIsPressed || moving || escKeyPressed) return;
     switch (event->key())
     {
     case Qt::Key_A: direction = LEFT; break;
     case Qt::Key_D: direction = RIGHT; break;
     case Qt::Key_W: direction = UP; break;
     case Qt::Key_S: direction = DOWN; break;
-    case Qt::Key_Escape: emit escPressed(); return;
     default: return;
     }
     if (canMove(direction))

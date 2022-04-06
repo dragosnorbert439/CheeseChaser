@@ -42,7 +42,7 @@ void Game::initVariables()
     miniMenuBackground = new QGraphicsRectItem();
 
     // mini menu components
-    showingMiniMenu = false;
+    isMiniMenuVisible = false;
     miniMenuBackground->setBrush(Qt::black);
     miniMenuBackground->setOpacity(0.618f);
     miniMenuBackground->hide();
@@ -61,34 +61,49 @@ void Game::setUpConnects()
     connect(gameMap, &GameMap::bringUpMenu, this, &Game::bringUpMenu);
     connect(exitButton, &QPushButton::clicked, [&](){ exit(EXIT_SUCCESS); });
     connect(returnToMainMenuButton, &QPushButton::clicked, this, &Game::returnToMainMenu);
+    connect(this, &Game::startPermaDelay, [&]() { while (isMiniMenuVisible) gameMap->delay(20); });
+}
+
+void Game::hideMiniMenu()
+{
+    exitButton->hide();
+    returnToMainMenuButton->hide();
+    miniMenuBackground->hide();
+}
+
+void Game::showMiniMenu()
+{
+    exitButton->show();
+    returnToMainMenuButton->show();
+    miniMenuBackground->show();
+}
+
+void Game::updateMiniMenu()
+{
+    miniMenuBackground->setRect(view->viewport()->rect().adjusted(1.f, 1.f, -1.f, -1.f));
+    returnToMainMenuProxy->setPos(view->viewport()->width() / 2 - returnToMainMenuButton->width() / 2,
+                                  view->viewport()->height() / 2 - returnToMainMenuButton->height() - 100.f);
+    exitButtonProxy->setPos(view->viewport()->width() / 2 - exitButton->width() / 2,
+                            view->viewport()->height() / 2);
 }
 
 void Game::bringUpMenu()
 {
-    if (showingMiniMenu)
+    if (isMiniMenuVisible)
     {
         // hide all the mini menu components
-        exitButton->hide();
-        returnToMainMenuButton->hide();
-        miniMenuBackground->hide();
-
-        showingMiniMenu = false;
+        hideMiniMenu();
+        isMiniMenuVisible = false;
     }
     else
     {
         // update mini menu components
-        miniMenuBackground->setRect(view->viewport()->rect().adjusted(1.f, 1.f, -1.f, -1.f));
-        returnToMainMenuProxy->setPos(view->viewport()->width() / 2 - returnToMainMenuButton->width() / 2,
-                                      view->viewport()->height() / 2 - returnToMainMenuButton->height() - 100.f);
-        exitButtonProxy->setPos(view->viewport()->width() / 2 - exitButton->width() / 2,
-                                view->viewport()->height() / 2);
+        updateMiniMenu();
 
         // show all the mini menu components
-        exitButton->show();
-        returnToMainMenuButton->show();
-        miniMenuBackground->show();
-
-        showingMiniMenu = true;
+        showMiniMenu();
+        isMiniMenuVisible = true;
+        emit startPermaDelay();
     }
 }
 

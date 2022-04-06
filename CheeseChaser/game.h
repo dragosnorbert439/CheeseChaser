@@ -29,7 +29,7 @@ protected:
     QGraphicsView* view;
     QGraphicsRectItem* miniMenuBackground;
     GameMap* gameMap;
-    bool showingMiniMenu;
+    bool isMiniMenuVisible {false};
     QPushButton* exitButton;
     QPushButton* returnToMainMenuButton;
     QGraphicsProxyWidget* exitButtonProxy;
@@ -37,9 +37,13 @@ protected:
 
     void initVariables();
     void setUpConnects();
+    void hideMiniMenu();
+    void showMiniMenu();
+    void updateMiniMenu();
 
 signals:
     void returnToMainMenu();
+    void startPermaDelay();
 
 public slots:
     void bringUpMenu();

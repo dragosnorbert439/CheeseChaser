@@ -18,6 +18,7 @@ public:
 
 private:
     bool keyIsPressed {false};
+    bool escKeyPressed {false};
     void setUpConnects();
 
 signals:
