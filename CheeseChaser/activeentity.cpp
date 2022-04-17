@@ -104,7 +104,7 @@ void ActiveEntity::checkForEntityCollision() const
         if (entity == this) continue;
         if (distanceToEntity(*entity) == 0)
         {
-            //qDebug() << "Entities collided";
+            qDebug() << "Entities collided - Találkozott két entitás";
         }
     }
 }

@@ -18,6 +18,7 @@ SOURCES += \
         mainmenu.cpp \
         passabletile.cpp \
         player.cpp \
+        settings.cpp \
         staticmap.cpp \
         tile.cpp \
         unpassabletile.cpp
@@ -39,6 +40,7 @@ HEADERS += \
     mainmenu.h \
     passabletile.h \
     player.h \
+    settings.h \
     staticmap.h \
     tile.h \
     unpassabletile.h
@@ -50,5 +52,6 @@ QT += widgets \
 RESOURCES += \
     assets.qrc \
     enviorment.qrc \
-    maps.qrc
+    maps.qrc \
+    settings.qrc
 

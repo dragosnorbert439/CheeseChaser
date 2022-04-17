@@ -1,0 +1,6 @@
+{
+    "settings" :{
+        "description" : "some custom description",
+        "message" : "hello world"
+    }
+}

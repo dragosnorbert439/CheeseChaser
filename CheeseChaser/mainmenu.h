@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 
 #include "game.h"
+#include "settings.h"
 
 class MainMenu : public QWidget
 {
@@ -23,6 +24,7 @@ public:
 
 private:
     Game* game;
+    Settings* settings;
 
     QVBoxLayout* mainLayout;
     QPushButton* startButton;

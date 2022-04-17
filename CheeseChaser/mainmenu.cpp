@@ -5,10 +5,14 @@ MainMenu::MainMenu()
     initVariables();
     setUpConnects();
     setStyle();
+
+    // for testing settings
+    if(!settings->getInstance()->readOptionsFromJson()) qDebug() << "Could not read JSON file!";
 }
 
 MainMenu::~MainMenu()
 {
+    settings->deleteInstance();
     delete startButton;
     delete exitButton;
     delete mainLayout;
@@ -53,6 +57,10 @@ void MainMenu::setUpConnects()
         hide();
         initGame();
         game->showGame();
+    });
+    connect(optionsButton, &QPushButton::clicked,[&]()
+    {
+        qDebug() << "Options button clicked";
     });
 }
 
