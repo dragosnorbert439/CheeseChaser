@@ -4,15 +4,16 @@ MainMenu::MainMenu()
 {
     initVariables();
     setUpConnects();
-    setStyle();
 
     // for testing settings
     if(!settings->getInstance()->readOptionsFromJson()) qDebug() << "Could not read JSON file!";
+    setUpComboBox();
+
+    setStyle();
 }
 
 MainMenu::~MainMenu()
 {
-    settings->deleteInstance();
     delete startButton;
     delete exitButton;
     delete mainLayout;
@@ -20,20 +21,28 @@ MainMenu::~MainMenu()
 void MainMenu::initVariables()
 {
     // [EN] pointers
-    mainLayout = new QVBoxLayout();
+    mainLayout = new QHBoxLayout();
+    buttonsLayout = new QVBoxLayout();
+    optionsLayout = new QVBoxLayout();
     startButton = new QPushButton(tr("START"));
     exitButton = new QPushButton(tr("EXIT"));
     optionsButton = new QPushButton(tr("OPTIONS"));
+    mapNamesComboBox = new QComboBox();
 
-    // [EN] layout
-    mainLayout->addWidget(startButton, Qt::AlignCenter);
-    mainLayout->addWidget(optionsButton, Qt::AlignCenter);
-    mainLayout->addWidget(exitButton, Qt::AlignCenter);
+    // [EN] layouts
+    buttonsLayout->addWidget(startButton, Qt::AlignCenter);
+    buttonsLayout->addWidget(optionsButton, Qt::AlignCenter);
+    buttonsLayout->addWidget(exitButton, Qt::AlignCenter);
+    optionsLayout->addWidget(mapNamesComboBox, Qt::AlignHCenter);
+    mainLayout->addLayout(buttonsLayout);
+    mainLayout->addLayout(optionsLayout);
     setLayout(mainLayout);
 
     // [EN] window properties
     resize(SIZE_SMALL);
-    mainLayout->setMargin(64);
+    mainLayout->setMargin(8);
+    buttonsLayout->setMargin(64);
+    optionsLayout->setMargin(8);
 }
 
 void MainMenu::initGame()
@@ -62,6 +71,10 @@ void MainMenu::setUpConnects()
     {
         qDebug() << "Options button clicked";
     });
+    connect(mapNamesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [&]()
+    {
+        Settings::getInstance()->setSelectedMapNameIndex(mapNamesComboBox->currentIndex());
+    });
 }
 
 void MainMenu::setStyle()
@@ -70,6 +83,15 @@ void MainMenu::setStyle()
     startButton->setStyleSheet(buttonsStyleSheet);
     optionsButton->setStyleSheet(buttonsStyleSheet);
     exitButton->setStyleSheet(buttonsStyleSheet);
+    mapNamesComboBox->setStyleSheet(comboBoxStyleSheet);
+}
+
+void MainMenu::setUpComboBox()
+{
+    for (auto& mapName : Settings::getInstance()->getAllMapNames())
+    {
+        mapNamesComboBox->addItem(mapName);
+    }
 }
 
 void MainMenu::returnToMenu()

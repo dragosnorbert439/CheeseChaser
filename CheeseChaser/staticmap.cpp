@@ -15,7 +15,7 @@ StaticMap::~StaticMap()
 
 void StaticMap::setMap()
 {
-    QFile file(":/staticmap/static_map_2");
+    QFile file(Settings::getInstance()->getSelectedMapName());
     QString line;
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

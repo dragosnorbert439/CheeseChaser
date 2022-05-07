@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <limits.h>
 #include <QtGlobal>
+#include <QGlobalStatic>
 
 #include "cat.h"
 #include "constants.h"

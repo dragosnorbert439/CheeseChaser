@@ -1,6 +1,3 @@
 {
-    "settings" :{
-        "description" : "some custom description",
-        "message" : "hello world"
-    }
+    "map" : ":/staticmap/static_map_1"
 }

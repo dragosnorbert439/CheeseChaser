@@ -8,6 +8,7 @@
 #include "cat.h"
 #include "cheese.h"
 #include "greedycat.h"
+#include "settings.h"
 
 class StaticMap : public GameMap
 {

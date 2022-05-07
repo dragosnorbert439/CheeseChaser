@@ -5,9 +5,11 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QKeyEvent>
+#include <QComboBox>
 
 #include "game.h"
 #include "settings.h"
@@ -26,15 +28,21 @@ private:
     Game* game;
     Settings* settings;
 
-    QVBoxLayout* mainLayout;
+    QHBoxLayout* mainLayout;
+    QVBoxLayout* buttonsLayout;
+    QVBoxLayout* optionsLayout;
+
     QPushButton* startButton;
     QPushButton* exitButton;
     QPushButton* optionsButton;
+
+    QComboBox* mapNamesComboBox;
 
     void initVariables();
     void initGame();
     void setUpConnects();
     void setStyle();
+    void setUpComboBox();
 
 private slots:
     void returnToMenu();

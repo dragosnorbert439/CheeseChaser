@@ -8,11 +8,6 @@ Settings *Settings::getInstance()
     return instance;
 }
 
-void Settings::deleteInstance()
-{
-    this->~Settings();
-}
-
 Settings::Settings()
 {
     qDebug() << "Settings private constructor called";
@@ -37,13 +32,42 @@ bool Settings::readOptionsFromJson(QString fileName)
 
     // json object from document
     QJsonObject jsonObject = document.object();
-    qDebug() << jsonObject;
 
-    //
-    QString path = QDir::temp().absoluteFilePath(":/staticmap/static_map_1");
-    qDebug() << path;
+    // json value of map
+    QJsonValue selectedMapNameJV = jsonObject.value("map").toString();
+    // get all the available static maps (ONLY WITH static_map_N name)
+    for (unsigned int i = 1; i < MAX_STATIC_MAPS; ++i)
+    {
+        if (QFile::exists(STATIC_MAPS_NAME + QString().number(i)))
+        {
+            mapNames.push_back(STATIC_MAPS_NAME + QString().number(i));
+        }
+        else
+        {
+            if (i == 1) return false;
+            break;
+        }
+    }
+
+    // check if selected map from settings exists
+    if (!mapNames.contains(selectedMapNameJV.toString())) selectedMapNameJV = mapNames.first();
 
     return true;
+}
+
+const QString Settings::getSelectedMapName() const
+{
+    return mapNames[selectedMapIndex];
+}
+
+void Settings::setSelectedMapNameIndex(const unsigned int index)
+{
+    selectedMapIndex = index;
+}
+
+const QStringList Settings::getAllMapNames() const
+{
+    return mapNames;
 }
 
 

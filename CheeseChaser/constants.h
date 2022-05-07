@@ -23,4 +23,13 @@ const QString buttonsStyleSheet = "QPushButton"
                                   "QPushButton:hover:!pressed"
                                       "{ background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0.01 white, stop: 1 green);"
                                       "  }";
+const QString comboBoxStyleSheet = "QComboBox {"
+                                   " background-color : white;"
+                                   " font-size : 24px;"
+                                   " }"
+                                   "QComboBox:item {"
+                                   " background-color : blue;"
+                                   "}";
+static const unsigned int MAX_STATIC_MAPS = 50;
+static const QString STATIC_MAPS_NAME = ":/staticmap/static_map_";
 #endif // CONSTANTS_H
