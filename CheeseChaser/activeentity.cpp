@@ -3,14 +3,24 @@
 ActiveEntity::ActiveEntity(GameMap *gameMap, float x, float y) : Entity {x, y}
 {
     map = gameMap;
+    movesStack = new QStack<short>;
     connect(map, &GameMap::tick, [&]()
     {
         moveByAmount(direction);
+    });
+    connect(map, &GameMap::undoAllEntities, [&]()
+    {
+        undoEntityMove();
+    });
+    connect(map, &GameMap::setPlayerMovingFalse, [&]()
+    {
+        movesStack->push(direction);
     });
 }
 
 ActiveEntity::~ActiveEntity()
 {
+    delete movesStack;
 }
 
 void ActiveEntity::move(int direction)
@@ -69,11 +79,28 @@ bool ActiveEntity::canMove(int direction)
         if (typeid (*map->getMap()[i + 1][j]).name() == typeid (UnpassableTile).name()) return false;
         break;
     default:
-        // shouldn't reach here
-        qDebug() << "ActiveEntity::canMove::ERROR::Something went wrong!";
+        return false;
     }
 
     return true;
+}
+
+void ActiveEntity::undoEntityMove()
+{
+    if (!movesStack->empty())
+    {
+        short reverseMove = -1;
+        switch (movesStack->top())
+        {
+        case RIGHT: reverseMove = LEFT; break;
+        case LEFT: reverseMove = RIGHT; break;
+        case UP: reverseMove = DOWN; break;
+        case DOWN: reverseMove = UP; break;
+        default: movesStack->pop(); return;
+        }
+        move(reverseMove);
+        movesStack->pop();
+    }
 }
 
 bool ActiveEntity::setDirection(const int direction)

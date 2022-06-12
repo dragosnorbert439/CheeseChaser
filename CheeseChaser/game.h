@@ -13,6 +13,7 @@
 
 #include "staticmap.h"
 #include "gamemap.h"
+#include "constants.h"
 
 class Game : public QWidget
 {
@@ -40,6 +41,7 @@ protected:
     void hideMiniMenu();
     void showMiniMenu();
     void updateMiniMenu();
+    void setStyle();
 
 signals:
     void returnToMainMenu();

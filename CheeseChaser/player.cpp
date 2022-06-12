@@ -27,6 +27,7 @@ void Player::keyPressEvent(QKeyEvent *event)
     case Qt::Key_D: direction = RIGHT; break;
     case Qt::Key_W: direction = UP; break;
     case Qt::Key_S: direction = DOWN; break;
+    case Qt::Key_Z: emit playerUndo(); direction = -1; break;
     default: return;
     }
     if (canMove(direction))
@@ -48,6 +49,7 @@ void Player::setUpConnects()
     connect(this, &Player::escPressed, map, &GameMap::escPressed);
     connect(this, &Player::playerMoved, map, &GameMap::playerMovedToDirection);
     connect(map, &GameMap::setPlayerMovingFalse, [&](){ moving = false; });
+    connect(this, &Player::playerUndo, map, &GameMap::undoAllEntities);
 }
 
 

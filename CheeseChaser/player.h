@@ -4,7 +4,6 @@
 #include <QKeyEvent>
 
 #include "activeentity.h"
-#include "game.h"
 
 class Player : public ActiveEntity
 {
@@ -24,6 +23,7 @@ private:
 signals:
     void escPressed();
     void playerMoved();
+    void playerUndo();
 };
 
 #endif // PLAYER_H

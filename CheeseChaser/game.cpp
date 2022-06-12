@@ -4,6 +4,7 @@ Game::Game()
 {
     initVariables();
     setUpConnects();
+    setStyle();
 }
 
 Game::~Game()
@@ -82,9 +83,16 @@ void Game::updateMiniMenu()
 {
     miniMenuBackground->setRect(view->viewport()->rect().adjusted(1.f, 1.f, -1.f, -1.f));
     returnToMainMenuProxy->setPos(view->viewport()->width() / 2 - returnToMainMenuButton->width() / 2,
-                                  view->viewport()->height() / 2 - returnToMainMenuButton->height() - 100.f);
+                                  view->viewport()->height() / 2 - returnToMainMenuButton->height());
+
     exitButtonProxy->setPos(view->viewport()->width() / 2 - exitButton->width() / 2,
                             view->viewport()->height() / 2);
+}
+
+void Game::setStyle()
+{
+    returnToMainMenuButton->setStyleSheet(miniMenuButtonsStyleSheet);
+    exitButton->setStyleSheet(miniMenuButtonsStyleSheet);
 }
 
 void Game::bringUpMenu()
@@ -106,4 +114,5 @@ void Game::bringUpMenu()
         emit startPermaDelay();
     }
 }
+
 

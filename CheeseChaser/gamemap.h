@@ -67,7 +67,7 @@ signals:
     void tick();
     void setPlayerMovingFalse();
     void playerMoved();
-
+    void undoAllEntities();
 };
 
 #endif // GAMEMAP_H

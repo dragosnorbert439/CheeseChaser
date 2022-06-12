@@ -87,6 +87,7 @@ void GameMap::playerMovedToDirection()
         emit tick();
         if (transitionFrame < maxTransitionFrames + 1) delay(drawDelay);
     }
+
     emit setPlayerMovingFalse();
 }
 

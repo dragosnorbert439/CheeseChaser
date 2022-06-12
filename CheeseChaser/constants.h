@@ -30,6 +30,16 @@ const QString comboBoxStyleSheet = "QComboBox {"
                                    "QComboBox:item {"
                                    " background-color : blue;"
                                    "}";
+const QString miniMenuButtonsStyleSheet = "QPushButton"
+                                          "{ border-radius: 3px;"
+                                          "background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 black, stop: 0.75 green);"
+                                          " }"
+                                      "QPushButton:pressed"
+                                          "{ background-color: darkgreen;"
+                                          "  }"
+                                      "QPushButton:hover:!pressed"
+                                          "{ background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0.01 white, stop: 1 green);"
+                                          "  }";
 static const unsigned int MAX_STATIC_MAPS = 50;
 static const QString STATIC_MAPS_NAME = ":/staticmap/static_map_";
 #endif // CONSTANTS_H

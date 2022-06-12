@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QCoreApplication>
+#include <QStack>
 
 #include "entity.h"
 #include "gamemap.h"
@@ -31,6 +32,7 @@ public:
     int getDirection() const;
     bool setMoving(const bool moving);
     virtual bool canMove(int direction = 0);
+    void undoEntityMove();
 
     enum MOVE { LEFT, RIGHT, UP, DOWN };
 
@@ -38,6 +40,7 @@ protected:
     GameMap* map;
     int direction {0};
     bool moving {false};
+    QStack<short>* movesStack;
 
     void checkForEntityCollision() const;
 
