@@ -18,6 +18,37 @@ Settings::~Settings()
     qDebug() << "Settings destructor called;";
 }
 
+bool Settings::saveSettings(const QString mapName, const QString fileName)
+{
+    qDebug() << "Map name: " << mapName;
+
+    QFile file(fileName);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
+    QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+    file.close();
+
+    qDebug() << document;
+    QJsonObject jsonObject = document.object();
+    QJsonValueRef reference = jsonObject.find("map").value();
+    QJsonObject saveValue = reference.toObject();
+    //saveValue.insert("map", mapName);
+    saveValue["map"] = mapName;
+    reference = mapName;
+    document.setObject(jsonObject);
+
+    qDebug() << document;
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) return false;
+    file.write(document.toJson());
+    file.close();
+
+    qDebug() << "All good. Map name: " << mapName;
+
+    // lastly, update the current map name
+
+    return true;
+}
+
 bool Settings::readOptionsFromJson(QString fileName)
 {
     // open and read from the file, then close it
@@ -51,6 +82,10 @@ bool Settings::readOptionsFromJson(QString fileName)
 
     // check if selected map from settings exists
     if (!mapNames.contains(selectedMapNameJV.toString())) selectedMapNameJV = mapNames.first();
+    else selectedMapIndex = mapNames.indexOf(selectedMapNameJV.toString());
+
+    // set initial map name
+    initialMapName = selectedMapNameJV.toString();
 
     return true;
 }

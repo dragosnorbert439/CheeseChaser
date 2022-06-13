@@ -37,6 +37,9 @@ private:
     QPushButton* optionsButton;
 
     QComboBox* mapNamesComboBox;
+    QPushButton* saveSettingsButton;
+
+    bool optionsAreVisible {false};
 
     void initVariables();
     void initGame();

@@ -42,4 +42,5 @@ const QString miniMenuButtonsStyleSheet = "QPushButton"
                                           "  }";
 static const unsigned int MAX_STATIC_MAPS = 50;
 static const QString STATIC_MAPS_NAME = ":/staticmap/static_map_";
+static const QString JSON_SETTINGS_FILE = "settings.json";
 #endif // CONSTANTS_H

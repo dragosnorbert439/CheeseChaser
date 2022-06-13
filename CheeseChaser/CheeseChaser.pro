@@ -52,6 +52,5 @@ QT += widgets \
 RESOURCES += \
     assets.qrc \
     enviorment.qrc \
-    maps.qrc \
-    settings.qrc
+    maps.qrc
 

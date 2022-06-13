@@ -22,7 +22,8 @@ public:
     Settings(Settings &other) = delete;
     void operator=(const Settings &other) = delete;
 
-    bool readOptionsFromJson(const QString fileName = ":/settings/settings.json");
+    bool readOptionsFromJson(const QString fileName = JSON_SETTINGS_FILE);
+    bool saveSettings(const QString mapName, const QString fileName = JSON_SETTINGS_FILE);
 
     const QString getSelectedMapName() const;
     void setSelectedMapNameIndex(const unsigned int index);
@@ -31,6 +32,7 @@ public:
 protected:
     static Settings *instance;
     QStringList mapNames;
+    QString initialMapName { STATIC_MAPS_NAME + "1" };
     unsigned int selectedMapIndex {0};
 
     Settings();
