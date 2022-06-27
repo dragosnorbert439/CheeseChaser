@@ -2,5 +2,9 @@
     <qresource prefix="/staticmap">
         <file alias="static_map_1">res/static_map_1.txt</file>
         <file alias="static_map_2">res/static_map_2.txt</file>
+        <file alias="static_map_3">res/static_map_3.txt</file>
+        <file alias="static_map_4">res/static_map_4.txt</file>
+        <file alias="static_map_5">res/static_map_5.txt</file>
+        <file alias="static_map_6">res/static_map_6.txt</file>
     </qresource>
 </RCC>

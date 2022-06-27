@@ -10,24 +10,22 @@ Settings *Settings::getInstance()
 
 Settings::Settings()
 {
-    qDebug() << "Settings private constructor called";
 }
 
 Settings::~Settings()
 {
-    qDebug() << "Settings destructor called;";
 }
 
 bool Settings::saveSettings(const QString mapName, const QString fileName)
 {
-    qDebug() << "Map name: " << mapName;
+    //qDebug() << "Map name: " << mapName;
 
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
     QJsonDocument document = QJsonDocument::fromJson(file.readAll());
     file.close();
 
-    qDebug() << document;
+    //qDebug() << document;
     QJsonObject jsonObject = document.object();
     QJsonValueRef reference = jsonObject.find("map").value();
     QJsonObject saveValue = reference.toObject();
@@ -36,13 +34,13 @@ bool Settings::saveSettings(const QString mapName, const QString fileName)
     reference = mapName;
     document.setObject(jsonObject);
 
-    qDebug() << document;
+    //qDebug() << document;
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) return false;
     file.write(document.toJson());
     file.close();
 
-    qDebug() << "All good. Map name: " << mapName;
+    //qDebug() << "All good. Map name: " << mapName;
 
     // lastly, update the current map name
 
@@ -72,6 +70,10 @@ bool Settings::readOptionsFromJson(QString fileName)
         if (QFile::exists(STATIC_MAPS_NAME + QString().number(i)))
         {
             mapNames.push_back(STATIC_MAPS_NAME + QString().number(i));
+            QFile mapFile(mapNames.last());
+            mapFile.open(QIODevice::ReadOnly | QIODevice::Text);
+            mapAliasNames.push_back(mapFile.readLine());
+            mapFile.close();
         }
         else
         {
@@ -102,7 +104,7 @@ void Settings::setSelectedMapNameIndex(const unsigned int index)
 
 const QStringList Settings::getAllMapNames() const
 {
-    return mapNames;
+    return mapAliasNames;
 }
 
 

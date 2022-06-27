@@ -32,6 +32,7 @@ public:
 protected:
     static Settings *instance;
     QStringList mapNames;
+    QStringList mapAliasNames;
     QString initialMapName { STATIC_MAPS_NAME + "1" };
     unsigned int selectedMapIndex {0};
 

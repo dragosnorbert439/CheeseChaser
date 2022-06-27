@@ -78,7 +78,7 @@ bool GreedyCat::runAStarAlgorithm()
         distanceTravelled = pq.top()[3];
         pq.pop();
 
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             int tempNextI = currentPosition.first + pIndices[i];
             int tempNextJ = currentPosition.second + qIndices[i];

@@ -15,8 +15,11 @@ public:
     Entity(float x = 0.f, float y = 0.f);
     virtual ~Entity();
 
+    short getEntityLevel() const;
+
 protected:
     void loadImage(const QString& img);
+    short entityLevel {0};
 
 private:
     QPixmap* image;

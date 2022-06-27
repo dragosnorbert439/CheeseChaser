@@ -60,7 +60,7 @@ protected:
 
 public slots:
     void escPressed();
-    void playerMovedToDirection();
+    void playerMovedNotify();
 
 signals:
     void bringUpMenu();
@@ -68,6 +68,8 @@ signals:
     void setPlayerMovingFalse();
     void playerMoved();
     void undoAllEntities();
+    void playerWin();
+    void playerLose();
 };
 
 #endif // GAMEMAP_H

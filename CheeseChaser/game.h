@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QGraphicsProxyWidget>
+#include <QLabel>
 
 #include "staticmap.h"
 #include "gamemap.h"
@@ -35,6 +36,8 @@ protected:
     QPushButton* returnToMainMenuButton;
     QGraphicsProxyWidget* exitButtonProxy;
     QGraphicsProxyWidget* returnToMainMenuProxy;
+    QLabel* miniMenuLabel;
+    QGraphicsProxyWidget* menuLabelProxy;
 
     void initVariables();
     void setUpConnects();
@@ -49,6 +52,8 @@ signals:
 
 public slots:
     void bringUpMenu();
+    void showGameLostMenu();
+    void showGameWonMenu();
 
 };
 

@@ -20,17 +20,18 @@ void StaticMap::setMap()
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "StaticMap::setMap::ERROR::Could not open text file!";
+        //qDebug() << "StaticMap::setMap::ERROR::Could not open text file!";
         return;
     }
 
     QTextStream in(&file);
     QStringList fields;
     line = in.readLine();
+    line = in.readLine();
     fields = line.split(" ");
     if (!(setCols(fields[1].toInt()) && setRows(fields[0].toInt())))
     {
-        qDebug() << "StaticMap::setMap::ERROR::Could not set map dimensions!";
+        //qDebug() << "StaticMap::setMap::ERROR::Could not set map dimensions!";
         return;
     }
 
@@ -73,7 +74,8 @@ void StaticMap::setMap()
                 threadAnswers.append(&static_cast<Cat*>(entities->last())->done);
                 break;
             default:
-                qDebug() << "StaticMap::setMap::ERROR::Something went wrong!";
+                ;
+                //qDebug() << "StaticMap::setMap::ERROR::Something went wrong!";
             }
 
             gameScene->addItem(map[i][j]);

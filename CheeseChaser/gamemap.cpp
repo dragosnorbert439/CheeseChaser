@@ -69,7 +69,7 @@ void GameMap::escPressed()
     emit bringUpMenu();
 }
 
-void GameMap::playerMovedToDirection()
+void GameMap::playerMovedNotify()
 {
     bool doneAll = false;
     for(auto& v : threadAnswers) *v = false;

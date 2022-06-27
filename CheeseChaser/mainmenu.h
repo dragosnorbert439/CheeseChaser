@@ -31,6 +31,7 @@ private:
     QHBoxLayout* mainLayout;
     QVBoxLayout* buttonsLayout;
     QVBoxLayout* optionsLayout;
+    QHBoxLayout* optionsButtonLayout;
 
     QPushButton* startButton;
     QPushButton* exitButton;
@@ -38,6 +39,7 @@ private:
 
     QComboBox* mapNamesComboBox;
     QPushButton* saveSettingsButton;
+    QPushButton* backSettingsButton;
 
     bool optionsAreVisible {false};
 

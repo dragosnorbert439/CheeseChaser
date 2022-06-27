@@ -6,7 +6,7 @@ MainMenu::MainMenu()
     setUpConnects();
 
     // for testing settings
-    if(!settings->getInstance()->readOptionsFromJson()) qDebug() << "Could not read JSON file!";
+    if(!settings->getInstance()->readOptionsFromJson()); //qDebug() << "Could not read Settings.json file.";
     setUpComboBox();
 
     setStyle();
@@ -24,18 +24,22 @@ void MainMenu::initVariables()
     mainLayout = new QHBoxLayout();
     buttonsLayout = new QVBoxLayout();
     optionsLayout = new QVBoxLayout();
+    optionsButtonLayout = new QHBoxLayout();
     startButton = new QPushButton(tr("START"));
     exitButton = new QPushButton(tr("EXIT"));
     optionsButton = new QPushButton(tr("OPTIONS"));
     mapNamesComboBox = new QComboBox();
     saveSettingsButton = new QPushButton(tr("SAVE"));
+    backSettingsButton = new QPushButton(tr("BACK"));
 
     // [EN] layouts
     buttonsLayout->addWidget(startButton, Qt::AlignCenter);
     buttonsLayout->addWidget(optionsButton, Qt::AlignCenter);
     buttonsLayout->addWidget(exitButton, Qt::AlignCenter);
     optionsLayout->addWidget(mapNamesComboBox, Qt::AlignHCenter);
-    optionsLayout->addWidget(saveSettingsButton, Qt::AlignHCenter);
+    optionsButtonLayout->addWidget(backSettingsButton, Qt::AlignVCenter);
+    optionsButtonLayout->addWidget(saveSettingsButton, Qt::AlignVCenter);
+    optionsLayout->addLayout(optionsButtonLayout);
     mainLayout->addLayout(buttonsLayout);
     mainLayout->addLayout(optionsLayout);
     setLayout(mainLayout);
@@ -43,12 +47,13 @@ void MainMenu::initVariables()
     // [EN] window properties
     resize(SIZE_SMALL);
     mainLayout->setMargin(8);
-    buttonsLayout->setMargin(64);
-    optionsLayout->setMargin(8);
+    buttonsLayout->setMargin(16);
+    optionsLayout->setMargin(16);
 
     // other
     mapNamesComboBox->hide();
     saveSettingsButton->hide();
+    backSettingsButton->hide();
 }
 
 void MainMenu::initGame()
@@ -75,17 +80,36 @@ void MainMenu::setUpConnects()
     });
     connect(optionsButton, &QPushButton::clicked,[&]()
     {
-        if (optionsAreVisible)
+        if (!optionsAreVisible)
         {
-            mapNamesComboBox->hide();
-            saveSettingsButton->hide();
-            optionsAreVisible = false;
-        }
-        else
-        {
+            // show options
             mapNamesComboBox->show();
             saveSettingsButton->show();
+            backSettingsButton->show();
+
+            // hide main menu
+            startButton->hide();
+            optionsButton->hide();
+            exitButton->hide();
+
             optionsAreVisible = true;
+        }
+    });
+    connect(backSettingsButton, &QPushButton::clicked, [&]()
+    {
+        if (optionsAreVisible)
+        {
+            // hide options
+            mapNamesComboBox->hide();
+            saveSettingsButton->hide();
+            backSettingsButton->hide();
+
+            // show main menu
+            startButton->show();
+            optionsButton->show();
+            exitButton->show();
+
+            optionsAreVisible = false;
         }
     });
     connect(mapNamesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [&]()
@@ -93,9 +117,7 @@ void MainMenu::setUpConnects()
     });
     connect(saveSettingsButton, &QPushButton::clicked, [&]()
     {
-        qDebug() << "Save options button works!";
         Settings::getInstance()->setSelectedMapNameIndex(mapNamesComboBox->currentIndex());
-        qDebug() << "Current text: " << mapNamesComboBox->itemText(mapNamesComboBox->currentIndex());
         settings->saveSettings(mapNamesComboBox->itemText(mapNamesComboBox->currentIndex()));
     });
 }
@@ -107,6 +129,8 @@ void MainMenu::setStyle()
     optionsButton->setStyleSheet(buttonsStyleSheet);
     exitButton->setStyleSheet(buttonsStyleSheet);
     mapNamesComboBox->setStyleSheet(comboBoxStyleSheet);
+    backSettingsButton->setStyleSheet(buttonsStyleSheet);
+    saveSettingsButton->setStyleSheet(buttonsStyleSheet);
 }
 
 void MainMenu::setUpComboBox()

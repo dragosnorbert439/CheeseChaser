@@ -18,7 +18,7 @@ void Tile::loadImage(const QString &img)
 {
     if (!image->load(img))
     {
-        qDebug() << "TILE::ERROR::Could not load image for QPixmap\n";
+        //qDebug() << "TILE::ERROR::Could not load image for QPixmap\n";
     }
     setPixmap(image->scaled(TILE_SIZE, TILE_SIZE));
 }

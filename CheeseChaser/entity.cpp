@@ -11,11 +11,17 @@ Entity::~Entity()
     delete image;
 }
 
+short Entity::getEntityLevel() const
+{
+    return entityLevel;
+}
+
 void Entity::loadImage(const QString &img)
 {
     if (!image->load(img))
     {
-        qDebug() << "Entity::ERROR::Could not load image for QPixmap\n";
+        //qDebug() << "Entity::ERROR::Could not load image for QPixmap\n";
+        return;
     }
     setPixmap(image->scaled(TILE_SIZE, TILE_SIZE));
 }

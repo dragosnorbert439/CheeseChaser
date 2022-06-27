@@ -3,6 +3,7 @@
 Cat::Cat(GameMap *gameMap, float x, float y) : ActiveEntity {gameMap, x, y}
 {
     loadImage(":/enemy/cat");
+    entityLevel = 2;
     setFlag(ItemIsFocusable, false);
     setFlag(QGraphicsItem::ItemStopsFocusHandling, true);
     connect(map, &GameMap::playerMoved, this, &Cat::calculateDirection);

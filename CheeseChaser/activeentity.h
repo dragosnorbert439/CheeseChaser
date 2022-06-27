@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ACTIVEENTITY_H
 #define ACTIVEENTITY_H
 
@@ -11,6 +12,7 @@
 #include "entity.h"
 #include "gamemap.h"
 
+class Player;
 class ActiveEntity : public Entity
 {
     Q_OBJECT
@@ -42,7 +44,7 @@ protected:
     bool moving {false};
     QStack<short>* movesStack;
 
-    void checkForEntityCollision() const;
+    void checkForEntityCollision();
 
 };
 

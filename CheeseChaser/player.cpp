@@ -3,6 +3,7 @@
 Player::Player(GameMap* gameMap, float x, float y) : ActiveEntity {gameMap, x, y}
 {    
     loadImage(":/player/mouse");
+    entityLevel = 1;
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFocus();
     setZValue(2);
@@ -15,6 +16,7 @@ Player::~Player()
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
+    if (isGameOver) return;
     if (event->key() == Qt::Key_Escape)
     {
         escKeyPressed = !escKeyPressed;
@@ -47,9 +49,11 @@ void Player::keyReleaseEvent(QKeyEvent *event)
 void Player::setUpConnects()
 {
     connect(this, &Player::escPressed, map, &GameMap::escPressed);
-    connect(this, &Player::playerMoved, map, &GameMap::playerMovedToDirection);
+    connect(this, &Player::playerMoved, map, &GameMap::playerMovedNotify);
     connect(map, &GameMap::setPlayerMovingFalse, [&](){ moving = false; });
     connect(this, &Player::playerUndo, map, &GameMap::undoAllEntities);
+    connect(map, &GameMap::playerLose, [&]() { isGameOver = true; });
+    connect(map, &GameMap::playerWin, [&]() { isGameOver = true; });
 }
 
 

@@ -25,14 +25,15 @@ const QString buttonsStyleSheet = "QPushButton"
                                       "  }";
 const QString comboBoxStyleSheet = "QComboBox {"
                                    " background-color : white;"
-                                   " font-size : 24px;"
+                                   " font-size : 22px;"
                                    " }"
                                    "QComboBox:item {"
                                    " background-color : blue;"
                                    "}";
 const QString miniMenuButtonsStyleSheet = "QPushButton"
                                           "{ border-radius: 3px;"
-                                          "background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 black, stop: 0.75 green);"
+                                          "background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 black, stop: 0.85 green);"
+                                          "padding: 5px;"
                                           " }"
                                       "QPushButton:pressed"
                                           "{ background-color: darkgreen;"
@@ -40,6 +41,11 @@ const QString miniMenuButtonsStyleSheet = "QPushButton"
                                       "QPushButton:hover:!pressed"
                                           "{ background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0.01 white, stop: 1 green);"
                                           "  }";
+const QString miniMenuLabelStyleSheet = "QLabel"
+                                        "{ background: rgba(0,0,0,0);"
+                                        "font-size: 48px;"
+                                        "color: white"
+                                        " }";
 static const unsigned int MAX_STATIC_MAPS = 50;
 static const QString STATIC_MAPS_NAME = ":/staticmap/static_map_";
 static const QString JSON_SETTINGS_FILE = "settings.json";

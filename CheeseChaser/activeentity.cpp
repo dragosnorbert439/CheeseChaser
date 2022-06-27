@@ -124,14 +124,25 @@ float ActiveEntity::distanceToEntity(const Entity &e) const
     return (pos().x() - e.pos().x())*(pos().x() - e.pos().x()) + (pos().y() - e.pos().y())*(pos().y() - e.pos().y());
 }
 
-void ActiveEntity::checkForEntityCollision() const
+void ActiveEntity::checkForEntityCollision()
 {
     for (auto& entity : *map->getEntities())
     {
         if (entity == this) continue;
-        if (distanceToEntity(*entity) == 0)
+        if (entity->getEntityLevel() == this->getEntityLevel()) continue;
+        else if (distanceToEntity(*entity) == 0)
         {
-            qDebug() << "Entities collided - Találkozott két entitás";
+            // if we hit the cat or vice versa
+            if ((this->entityLevel == 1 && entity->getEntityLevel() == 2)
+                    ||(this->entityLevel == 2 && entity->getEntityLevel() == 1))
+            {
+                emit map->playerLose();
+            }
+            // if we find the finish
+            else if (this->entityLevel == 1 && entity->getEntityLevel() == 0)
+            {
+                emit map->playerWin();
+            }
         }
     }
 }
