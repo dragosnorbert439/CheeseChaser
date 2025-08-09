@@ -1,6 +1,1 @@
 # CheeseChaser
-
-*[HU]*
-2D-s játék projekt - jelenleg még dolgozom rajta...
-*[EN]*
-A 2D game - currently I'm still working on it...
